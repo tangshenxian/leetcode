@@ -70,4 +70,31 @@ public class Solution1575 {
         return sum;
     }
 
+    public int countRoutesDp(int[] locations, int start, int finish, int fuel) {
+        int n = locations.length;
+
+        // f[i][j]代表从位置i出发，油量为j的情况下到达目的地路径数量
+        int[][] f = new int[n][fuel + 1];
+
+        // 如果其实位置等于目的地，本身就算一条路径
+        for (int i = 0; i <= fuel; i++) {
+            f[finish][i] = 1;
+        }
+
+        for (int cur = 0; cur <= fuel; cur++) {
+            for (int i = 0; i < n; i++) {
+                for (int k = 0; k < n; k++) {
+                    if (i != k) {
+                        int need = Math.abs(locations[i] - locations[k]);
+                        if (cur >= need) {
+                            f[i][cur] += f[k][cur - need];
+                            f[i][cur] %= mod;
+                        }
+                    }
+                }
+            }
+        }
+        return f[start][fuel];
+    }
+
 }
