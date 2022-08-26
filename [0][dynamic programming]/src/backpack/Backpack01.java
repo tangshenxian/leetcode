@@ -64,4 +64,27 @@ public class Backpack01 {
         return f[(N - 1) & 1][V];
     }
 
+    /**
+     * dp[C + 1]解法
+     *
+     * @param N /
+     * @param V /
+     * @param v /
+     * @param w /
+     * @return /
+     */
+    public int solution3(int N, int V, int[] v, int[] w) {
+        int[] f = new int[V + 1];
+        for (int i = 0; i < N; i++) {
+            for (int j = V; j < V - v[i]; j++) {
+                // 不选该物品
+                int val1 = f[j];
+                // 选择该物品
+                int val2 = f[j - v[i]] + w[i];
+                f[j] = Math.max(val1, val2);
+            }
+        }
+        return f[V];
+    }
+
 }
